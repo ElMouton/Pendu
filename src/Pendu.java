@@ -1,23 +1,22 @@
 import java.io.*;
 import java.net.URISyntaxException;
-import java.util.Objects;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
-public class Pendu {
+public class Pendu implements Iterable<Character> {
     private String mot;
     private String reponse;
     private InterfaceUtilisateur ui;
     private int nbEssais;
+    private ArrayList<Character> lettreUtilise;
 
     public Pendu(InterfaceUtilisateur ui) {
         try {
             this.ui = ui;
             this.nbEssais = 5;
+            this.lettreUtilise = new ArrayList<>();
 
             this.mot = choixMots();
             this.mot = correctionMots(mot);
-            System.out.println(mot);
 
             this.reponse = creationRep(mot);
         } catch (IOException | URISyntaxException e) {
@@ -59,16 +58,18 @@ public class Pendu {
         mot = mot.replace('é', 'e');
         mot = mot.replace('à', 'a');
         mot = mot.replace('ù', 'u');
+        mot = mot.replace('î', 'i');
+        mot = mot.replace('ï', 'i');
 
         return mot;
     }
 
     private String creationRep(String mot){
-
         return "." + ".".repeat(mot.length() - 1);
     }
 
     public void reagir(char rep){
+        this.ajouterChar(rep);
         boolean trouve = true;
         for (int i = 0; i < this.mot.length(); i++) {
             if(this.mot.charAt(i) == rep){
@@ -115,10 +116,23 @@ public class Pendu {
         this.nbEssais--;
     }
 
+    public void ajouterChar(char c){
+        this.lettreUtilise.add(c);
+    }
+
+    public int nbLettre(){
+        return this.lettreUtilise.size();
+    }
+
     @Override
     public String toString() {
         return "Pendu{" +
                 "mot='" + mot + '\'' +
                 '}';
+    }
+
+    @Override
+    public Iterator<Character> iterator() {
+        return this.lettreUtilise.iterator();
     }
 }

@@ -22,8 +22,22 @@ public class InterfaceUtilisateur {
         boolean verif = false;
 
         while (!verif){
-            System.out.println("Tu as " + p.getNbEssais() + " essais");
-            System.out.println("Quel lettre choisissez-vous ?");
+            System.out.println();
+            System.out.println("Il te reste " + p.getNbEssais() + " erreurs");
+
+            System.out.print("Lettres utilisées : ");
+            int i = 0;
+            for(char c : this.p){
+                if(i == p.nbLettre()-1){
+                    System.out.print(c);
+                }else{
+                    System.out.print(c + ", ");
+                }
+                i++;
+            }
+            System.out.println();
+
+            System.out.println("Quelle lettre choisissez-vous ?");
             String choix = sc.nextLine();
 
             if(choix.length() != 1){
@@ -37,6 +51,13 @@ public class InterfaceUtilisateur {
                     verif = true;
                 }else{
                     System.out.println("Ce n'est pas une lettre");
+                }
+            }
+
+            for(char c : this.p){
+                if(rep == c){
+                    System.out.println("Lettre déjà utilisée");
+                    verif = false;
                 }
             }
         }
